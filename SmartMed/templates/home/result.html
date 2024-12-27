@@ -1,0 +1,136 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="{% static 'images/favicon.png' %}" rel="shortcut icon" type="image/x-icon" />
+    <title>Amélioration des Images Médicales</title>
+    <style>
+        /* Reset default styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        /* Body styles */
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background-color: #f8f9fa;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            flex-direction: column;
+        }
+
+        /* Header styles */
+        header {
+            background-color: #000000;
+            color: white;
+            padding: 1rem;
+            text-align: center;
+            width: 100%;
+            max-width: 800px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+
+        header h1 {
+            font-size: 1.5rem;
+            font-weight: 600;
+        }
+
+        /* Footer styles */
+        footer {
+            background-color: #000000;
+            color: white;
+            text-align: center;
+            padding: 10px;
+            font-size: 0.8rem;
+            width: 100%;
+            max-width: 800px;
+            border-radius: 8px;
+            margin-top: 20px;
+        }
+
+        /* Container styles */
+        .container {
+            background-color: white;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 800px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        /* Image container styles */
+        .image-container {
+            margin-bottom: 30px; /* Ajout d'espace vertical entre les conteneurs d'images */
+            text-align: center;
+            width: 100%;
+        }
+
+        .image-container h2 {
+            margin-bottom: 15px; /* Espace entre le titre et l'image */
+            font-size: 1.2rem;
+        }
+
+        .image-container img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Responsive styles */
+        @media (max-width: 768px) {
+            .container, header, footer {
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Amélioration des Images Médicales</h1>
+    </header>
+    <div class="container">
+        <h1>Résultats du Traitement d'Image</h1>
+    
+        <div class="image-container">
+            <h2>Image Téléchargée</h2>
+            <img src="data:image/png;base64,{{ original_image }}" alt="Image Téléchargée">
+        </div>
+    
+        <div class="image-container">
+            <h2>Image Filtrée par Médiane</h2>
+            <img src="data:image/png;base64,{{ median_image }}" alt="Image Filtrée par Médiane">
+        </div>
+    
+        <div class="image-container">
+            <h2>Image Égalisée</h2>
+            <img src="data:image/png;base64,{{ equalized_image }}" alt="Image Égalisée">
+        </div>
+
+        <div class="image-container">
+            <h2>Image clahet</h2>
+            <img src="data:image/png;base64,{{ clahe_image }}" alt="clahe_image">
+        </div>
+    
+        <div class="image-container">
+            <h2>Histogramme</h2>
+            <img src="data:image/png;base64,{{ histogram }}" alt="Histogramme">
+        </div>
+    </div>
+
+    <footer>
+        <p>© 2024 SmartMed. Tous droits réservés.</p>
+    </footer>
+</body>
+</html>

@@ -1,0 +1,246 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="{% static 'images/favicon.png' %}" rel="shortcut icon" type="image/x-icon" />
+    <title>Prédiction des maladies cardiaques</title>
+    <style>
+        /* Global Styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background-color: #f8f9fa;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: space-between;
+            min-height: 100vh;
+            margin: 0px;
+        }
+
+        /* Header Styles */
+        header {
+            background-color: #000000;
+            color: white;
+            padding: 1rem;
+            text-align: center;
+            width: 100%;
+            max-width: 600px;
+            border-radius: 8px;
+            margin-bottom: 1.6rem;
+        }
+
+        header h1 {
+            font-size: 1.5rem;
+            font-weight: 600;
+        }
+
+        /* Form Styles */
+        form {
+            width: 100%;
+            max-width: 600px;
+            background-color: white;
+            padding: 0.8rem;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        form:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+        }
+
+        label {
+            display: block;
+            margin: 10px 0 5px;
+            font-size: 0.9rem;
+            color: #333;
+            font-weight: 500;
+        }
+
+        input, select {
+            width: 100%;
+            padding: 10px;
+            margin: 5px 0 15px;
+            font-size: 0.9rem;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            transition: border-color 0.3s;
+        }
+
+        input:focus, select:focus {
+            outline: none;
+            border-color: #000000;
+        }
+
+        button {
+            width: 100%;
+            padding: 12px;
+            background-color: #000000;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        button:hover {
+            background-color: #333333;
+        }
+
+        #prediction-result {
+            margin-top: 20px;
+            text-align: center;
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: #333;
+            padding: 15px;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Footer Styles */
+        footer {
+            background-color: #000000;
+            color: white;
+            text-align: center;
+            padding: 10px;
+            font-size: 0.8rem;
+            width: 100%;
+            max-width: 600px;
+            border-radius: 8px;
+            margin-top: 1.6rem;
+        }
+
+        /* Responsive Styles */
+        @media (max-width: 768px) {
+            form {
+                width: 95%;
+                padding: 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Prédiction des maladies cardiaques</h1>
+    </header>
+
+    <form method="post" id="prediction-form" aria-label="Formulaire de Prédiction de Maladie Cardiaque">
+        {% csrf_token %}
+        <label for="age">Âge (en années) :</label>
+        <input type="number" id="age" name="age" required min="1" max="120" aria-required="true">
+    
+        <label for="sex">Sexe :</label>
+        <select id="sex" name="sex" required aria-required="true">
+            <option value="" disabled selected>Sélectionner une option</option>
+            <option value="1">Homme</option>
+            <option value="0">Femme</option>
+        </select>
+    
+        <label for="cp">Type de Douleur Thoracique :</label>
+        <select id="cp" name="cp" required aria-required="true">
+            <option value="" disabled selected>Sélectionner une option</option>
+            <option value="0">Angine Typique</option>
+            <option value="1">Angine Atypique</option>
+            <option value="2">Douleur Non-Angineuse</option>
+            <option value="3">Asymptomatique</option>
+        </select>
+    
+        <label for="trestbps">Pression Artérielle au Repos (mm Hg) :</label>
+        <input type="number" id="trestbps" name="trestbps" required min="50" max="200" aria-required="true">
+    
+        <label for="chol">Cholestérol Sérique (mg/dl) :</label>
+        <input type="number" id="chol" name="chol" required min="100" max="600" aria-required="true">
+    
+        <label for="fbs">Glycémie à Jeun > 120 mg/dl :</label>
+        <select id="fbs" name="fbs" required aria-required="true">
+            <option value="1">Vrai</option>
+            <option value="0">Faux</option>
+        </select>
+    
+        <label for="restecg">Résultats de l'ECG au Repos :</label>
+        <select id="restecg" name="restecg" required aria-required="true">
+            <option value="0">Normal</option>
+            <option value="1">Anomalie de l'Onde ST-T</option>
+            <option value="2">Hypertrophie Ventriculaire Gauche</option>
+        </select>
+    
+        <label for="thalach">Fréquence Cardiaque Maximale Atteinte :</label>
+        <input type="number" id="thalach" name="thalach" required min="60" max="220" aria-required="true">
+    
+        <label for="exang">Angine Induite par l'Exercice :</label>
+        <select id="exang" name="exang" required aria-required="true">
+            <option value="1">Oui</option>
+            <option value="0">Non</option>
+        </select>
+    
+        <label for="oldpeak">Dépression ST Induite par l'Exercice par Rapport au Repos :</label>
+        <input type="number" step="0.1" id="oldpeak" name="oldpeak" required min="0" max="10" aria-required="true">
+    
+        <label for="slope">Pente du Segment ST de l'Exercice Peak :</label>
+        <select id="slope" name="slope" required aria-required="true">
+            <option value="0">Pente Montante</option>
+            <option value="1">Plate</option>
+            <option value="2">Pente Descendante</option>
+        </select>
+    
+        <label for="ca">Nombre de Vaisseaux Principaux Colorés par Fluoroscopie (0-3) :</label>
+        <input type="number" id="ca" name="ca" required min="0" max="3" aria-required="true">
+    
+        <label for="thal">Thalassémie :</label>
+        <select id="thal" name="thal" required aria-required="true">
+            <option value="1">Défaut Fixe</option>
+            <option value="2">Normal</option>
+            <option value="3">Défaut Réversible</option>
+        </select>
+    
+        <button type="submit">Prédire</button>
+    </form>
+    
+    <div id="prediction-result" role="alert"></div>    
+
+    <footer>
+        <p> © 2024 SmartMed. Tous droits réservés.</p>
+    </footer>
+
+    <script>
+        const form = document.getElementById('prediction-form');
+        form.addEventListener('submit', async function(event) {
+            event.preventDefault();
+
+            const formData = new FormData(form);
+            const data = {};
+            formData.forEach((value, key) => { data[key] = value });
+
+            try {
+                const response = await fetch("/predict/", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify({ features: [Object.values(data)] }),
+                });
+
+                const result = await response.json();
+                const predictionText = result.prediction === 1 ? 'Heart Disease Detected' : 'No Heart Disease';
+                document.getElementById('prediction-result').textContent = predictionText;
+            } catch (error) {
+                document.getElementById('prediction-result').textContent = 'Error: Unable to fetch prediction.';
+            }
+        });
+    </script>
+</body>
+</html>

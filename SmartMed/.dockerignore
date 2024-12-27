@@ -1,0 +1,8 @@
+*.pyc
+*.pyo
+__pycache__/
+.env
+.git
+.dockerignore
+.vscode/
+node_modules/

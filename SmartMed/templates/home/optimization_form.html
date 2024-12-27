@@ -1,0 +1,161 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="{% static 'images/favicon.png' %}" rel="shortcut icon" type="image/x-icon" />
+    <title>Optimisation Scanner CT</title>
+    <style>
+        :root {
+            --primary-color: #000000;
+            --secondary-color: #1e40af;
+            --background-color: #f8fafc;
+            --text-color: #1e293b;
+            --border-color: #e2e8f0;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: system-ui, -apple-system, sans-serif;
+        }
+
+        body {
+            background-color: var(--background-color);
+            color: var(--text-color);
+            line-height: 1.6;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Header Styles */
+.header {
+    background-color: #000000;
+    color: white;
+    padding: 1rem;
+    text-align: center;
+    width: 100%;
+    max-width: 600px;
+    border-radius: 8px;
+    margin: 0 auto 1rem; /* Ajout de '0 auto' pour centrer */
+}
+        .header h1 {
+            font-size: 1.5rem;
+            font-weight: 600;
+        }
+
+        .main-container {
+            flex-grow: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-top: 0.3rem;
+            margin-bottom: 0.8rem;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 600px;
+            background: white;
+            padding: 2rem;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        p {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        label {
+            font-weight: 500;
+            color: var(--text-color);
+        }
+
+        input, select, textarea {
+            padding: 0.75rem;
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            font-size: 1rem;
+            transition: border-color 0.2s, box-shadow 0.2s;
+        }
+
+        input:focus, select:focus, textarea:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(0, 0, 0, 0.1);
+        }
+
+        button {
+            background-color: var(--primary-color);
+            color: white;
+            padding: 0.75rem 1.5rem;
+            border: none;
+            border-radius: 6px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.2s;
+            margin-top: 1rem;
+        }
+
+        button:hover {
+            background-color: var(--secondary-color);
+        }
+
+        .errorlist {
+            list-style: none;
+            color: #dc2626;
+            font-size: 0.875rem;
+            margin-top: 0.25rem;
+        }
+
+        .footer {
+    background-color: #000000;
+    color: white;
+    text-align: center;
+    padding: 10px;
+    font-size: 0.8rem;
+    width: 100%;
+    max-width: 600px;
+    border-radius: 8px;
+    margin: 0.3rem auto 0; /* Ajout de 'auto' pour centrer */
+
+}
+        @media (max-width: 640px) {
+            .container {
+                padding: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <h1>Optimisation Scanner CT</h1>
+    </header>
+
+    <main class="main-container">
+        <div class="container">
+            <form method="post">
+                {% csrf_token %}
+                {{ form.as_p }}
+                <button type="submit">Optimiser</button>
+            </form>
+        </div>
+    </main>
+
+    <footer class="footer">
+        <p>© 2024 SmartMed. Tous droits réservés.</p>
+    </footer>
+</body>
+</html>

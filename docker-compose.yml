@@ -1,0 +1,42 @@
+version: '3.8'
+
+services:
+  nginx:
+    build: ./nginx
+    ports:
+      - "80:80"
+    volumes:
+      - static_volume:/app/staticfiles
+      - media_volume:/app/mediafiles
+    depends_on:
+      - smartmed
+    restart: always
+    deploy:
+      resources:
+        limits:
+          memory: 4G        # Limit to 4GB of memory
+        reservations:
+          memory: 2G        # Reserve 2GB of memory
+
+  smartmed:
+    build: ./SmartMed
+    command: sh -c "gunicorn SmartMed.wsgi:application --bind 0.0.0.0:8000"
+    volumes:
+      - static_volume:/app/staticfiles
+      - media_volume:/app/mediafiles
+    expose:
+      - "8000"
+    restart: always
+    deploy:
+      resources:
+        limits:
+          memory: 8G        # Limit to 8GB of memory
+        reservations:
+          memory: 4G        # Reserve 4GB of memory
+    runtime: nvidia              # Use NVIDIA runtime for GPU access
+    environment:
+      - NVIDIA_VISIBLE_DEVICES=all  # Expose all GPUs for this container
+
+volumes:
+  static_volume:
+  media_volume:
