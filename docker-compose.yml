@@ -3,7 +3,7 @@ version: '3.8'
 services:
   nginx:
     build: ./nginx
-    image: marwenbellili72/nginx:latest
+    image: marwenbellili/nginx:latest
     ports:
       - "80:80"
     volumes:
@@ -21,7 +21,7 @@ services:
 
   smartmed:
     build: ./SmartMed
-    image: marwenbellili72/smartmed:latest
+    image: marwenbellili/smartmed:latest
     command: sh -c "gunicorn SmartMed.wsgi:application --bind 0.0.0.0:8000"
     volumes:
       - static_volume:/app/staticfiles
